@@ -430,15 +430,14 @@ static void wakeup_source_activate(struct wakeup_source *ws)
  */
 static void wakeup_source_report_event(struct wakeup_source *ws)
 {
-	if (!wakeup_source_blocker(ws)) {
-		ws->event_count++;
-		/* This is racy, but the counter is approximate anyway. */
-		if (events_check_enabled)
-			ws->wakeup_count++;
+	ws->event_count++;
+	/* This is racy, but the counter is approximate anyway. */
+	if (events_check_enabled)
+		ws->wakeup_count++;
 
-		if (!ws->active)
-			wakeup_source_activate(ws);
-	}
+	if (!ws->active)
+		wakeup_source_activate(ws);
+}
 
 /**
  * __pm_stay_awake - Notify the PM core of a wakeup event.
